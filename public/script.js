@@ -58,7 +58,7 @@ async function askAboutFact() {
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error || "提问失败");
+      throw new Error(data.userMessage || data.error || "提问失败");
     }
 
     answerText.textContent = data.answer;

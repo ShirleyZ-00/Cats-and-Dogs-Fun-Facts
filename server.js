@@ -44,6 +44,22 @@ function getRandomFact() {
   return { animal, fact };
 }
 
+function toFriendlyGeminiMessage(status, rawText) {
+  if (status === 429) {
+    return "当前 AI 配额不足，请稍后再试，或更换有额度的 Gemini Key。";
+  }
+  if (status === 401 || status === 403) {
+    return "Gemini API Key 无效或无权限，请检查环境变量配置。";
+  }
+  if (status === 404) {
+    return "当前 Gemini 模型不可用，请更换 GEMINI_MODEL 后重试。";
+  }
+  if (rawText && rawText.includes("RESOURCE_EXHAUSTED")) {
+    return "当前 AI 配额不足，请稍后再试。";
+  }
+  return "Gemini 服务暂时不可用，请稍后重试。";
+}
+
 async function handleAsk(body) {
   if (!GEMINI_API_KEY) {
     return { status: 500, data: { error: "服务器未配置 GEMINI_API_KEY。" } };
@@ -83,9 +99,13 @@ async function handleAsk(body) {
 
     if (!response.ok) {
       const text = await response.text();
+      const friendlyMessage = toFriendlyGeminiMessage(response.status, text);
       return {
         status: 502,
-        data: { error: `Gemini 请求失败（model=${GEMINI_MODEL}）: ${text}` }
+        data: {
+          error: `Gemini 请求失败（model=${GEMINI_MODEL}）: ${text}`,
+          userMessage: friendlyMessage
+        }
       };
     }
 
