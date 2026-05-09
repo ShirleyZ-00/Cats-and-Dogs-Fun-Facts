@@ -1,0 +1,9 @@
+{
+  "name": "pet-fun-facts",
+  "version": "1.0.0",
+  "description": "Cartoon-style cat and dog fun facts site with Gemini Q&A",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

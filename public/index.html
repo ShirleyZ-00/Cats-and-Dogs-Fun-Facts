@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>猫狗冷知识乐园</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>猫狗冷知识乐园</h1>
+      <p class="subtitle">不用登录，点一点就能学到萌宠冷知识！</p>
+
+      <section class="fact-box">
+        <p class="animal-tag" id="animalTag">加载中...</p>
+        <p class="fact" id="factText">正在为你准备冷知识...</p>
+      </section>
+
+      <div class="actions">
+        <button id="refreshBtn">换一条冷知识</button>
+      </div>
+
+      <section class="ask-box">
+        <label for="questionInput">针对这条冷知识，问 Gemini 一个问题：</label>
+        <textarea
+          id="questionInput"
+          rows="3"
+          placeholder="例如：为什么它们会有这种行为？"
+        ></textarea>
+        <button id="askBtn">提问</button>
+      </section>
+
+      <section class="answer-box">
+        <h2>Gemini 回答</h2>
+        <p id="answerText">你可以先点击“提问”来获取回答。</p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
