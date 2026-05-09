@@ -18,6 +18,7 @@ if (fs.existsSync(envPath)) {
 
 const PORT = Number(process.env.PORT) || 3000;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
 const catFacts = [
   "猫咪的胡须长度通常和它身体宽度接近，用来判断能不能钻过狭小空间。",
@@ -67,7 +68,7 @@ async function handleAsk(body) {
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+      `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent`,
       {
         method: "POST",
         headers: {
@@ -82,7 +83,10 @@ async function handleAsk(body) {
 
     if (!response.ok) {
       const text = await response.text();
-      return { status: 502, data: { error: `Gemini 请求失败: ${text}` } };
+      return {
+        status: 502,
+        data: { error: `Gemini 请求失败（model=${GEMINI_MODEL}）: ${text}` }
+      };
     }
 
     const data = await response.json();

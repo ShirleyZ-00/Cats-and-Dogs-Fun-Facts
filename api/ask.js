@@ -4,6 +4,7 @@ module.exports = async function handler(req, res) {
   }
 
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+  const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
   if (!GEMINI_API_KEY) {
     return res.status(500).json({ error: "服务器未配置 GEMINI_API_KEY。" });
   }
@@ -27,7 +28,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+      `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent`,
       {
         method: "POST",
         headers: {
@@ -42,7 +43,9 @@ module.exports = async function handler(req, res) {
 
     if (!response.ok) {
       const text = await response.text();
-      return res.status(502).json({ error: `Gemini 请求失败: ${text}` });
+      return res
+        .status(502)
+        .json({ error: `Gemini 请求失败（model=${GEMINI_MODEL}）: ${text}` });
     }
 
     const data = await response.json();
