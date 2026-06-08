@@ -18,7 +18,7 @@ if (fs.existsSync(envPath)) {
 
 const PORT = Number(process.env.PORT) || 3000;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-1.5-flash";
 
 const catFacts = [
   "猫咪的胡须长度通常和它身体宽度接近，用来判断能不能钻过狭小空间。",
